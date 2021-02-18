@@ -1,13 +1,5 @@
 ﻿Unit Masscpt;
 
-function MassCount(arr:array of integer; a:integer):integer;
-begin
-  if a < Length(arr)-1 then begin
-    a+=1;
-  end;
-  MassCount:=a;
-end;
-
 function TryReadInteger(key:Boolean):Integer; //функция проверяющая исключения на ввод целочисленных переменных
 begin //для ввода целых положительных и целых любых чисел
   var a:=-MaxInt; //переменная для контроля изменения значения
@@ -38,24 +30,25 @@ begin //задать, перезадать, вывести можно любой
     end;
     InOut:=arr; //возвращение  значения массива
   end else begin //если ключ не "истинный" происходит вывод массива в консоль
-    for var i:=0 to Length(arr)-1 do begin
+    for var i:=0 to arr.High do begin
       arr[i].Print;
     end;
     Println();
   end;
 end;
 
-function SumArr(arr:array of Integer):Integer;//функция суммирования всех элементов массива
+function MassCount(arr:array of integer; a:integer):integer; //счётчик элементовмассива вне циклической зависимости
 begin
-  for var i:=0 to Length(arr)-1 do begin
-    SumArr+=arr[i];
+  if a < arr.High then begin
+    a+=1;
   end;
+  MassCount:=a;
 end;
 
 function MaxNegEvenNum(arr:array of Integer):Integer;//функция поиска наибольшего четного отрицательного числа
 begin
   var max:=-MaxInt;//так как присвоить к функции типа (array of int):int обычное число нельзя вводим контрольную переменную
-  for var i:=0 to Length(arr)-1 do begin//поиск...
+  for var i:=0 to arr.High do begin//поиск...
     if (arr[i]>max) and (arr[i]<0) and (arr[i].IsEven) then begin
       max:=arr[i];
     end;
@@ -67,47 +60,90 @@ begin
   end;
 end;
 
-function SortMass(arr:array of integer;key:boolean):array of integer;
+function SortMass(arr:array of integer;key:boolean):array of integer; //сортировка массива
 begin
-  if key = true then begin
-    for var i:=0 to Length(arr)-1 do begin
-      for var j:=0 to Length(arr)-2-i do begin
+  if key = true then begin //если ключ "истинный" происходит сортировка по возростанию 
+    for var i:=0 to arr.High do begin //пузырик,ибо нефиг.
+      for var j:=0 to arr.High-1-i do begin
         if arr[j+1] < arr[j] then begin
           Swap(arr[j], arr[j+1]);
           end;
       end;
       end;
-  end else begin
-    for var i:=0 to Length(arr)-1 do begin
-      for var j:=0 to Length(arr)-2-i do begin
+  end else begin//если ключ не "истинный" происходит сортировка по убыванию 
+    for var i:=0 to arr.High do begin //пузырик,ибо нефиг.Х2
+      for var j:=0 to arr.High-1-i do begin
         if arr[j+1] > arr[j] then begin
           Swap(arr[j], arr[j+1]);
         end;
       end;
     end;
   end;
-  SortMass:=arr;
+  SortMass:=arr;//возвращение значению функции итогового массива
 end;
 
-function MultiplexMass(arrA,arrB:array of integer):array of Integer;
-begin
-var (m,n):=(0,0);
-var arrC:array of integer;
-SetLength(arrC,Length(arrA)+Length(arrB));
-for var i:=0 to Length(arrC)-1 do begin
-  arrC[i]:=MaxInt;
-end;
-for var i:=0 to Length(arrC)-1 do begin
-  if (arrA[n]<arrB[m]) then begin
-    Swap(arrC[i],arrA[n]);
-    n:=MassCount(arrA,n);
-  end else begin
-    Swap(arrC[i],arrB[m]);
-    m:=MassCount(arrB,m);
+function MultiplexMass(arrA,arrB:array of integer):array of Integer;//слияние сортирующее отсортированные массивы,
+begin//знаю,звучит сложно, блок-схема прилагается
+  var (m,n):=(0,0);//ндивидуальные счётчики для массивов 
+  var arrC:array of integer;//итоговы массив(его резерв тк запись напрямую в фунцию невозможна)
+  SetLength(arrC,Length(arrA)+Length(arrB));
+  arrC.Fill(MaxInt);//заполнение всех яйчеек массива максимальным элементом
+  for var i:=0 to arrC.High do begin //слияние
+    if (arrA[n]<arrB[m]) then begin//поэлементное сравнение значений массивов
+      Swap(arrC[i],arrA[n]);//смена элементов  сминимального на максимальный для выхода из условия
+      n:=MassCount(arrA,n);//измененение значение счёстчика 
+    end else begin
+      Swap(arrC[i],arrB[m]);//смена элементов  сминимального на максимальный для выхода из условия
+      m:=MassCount(arrB,m);//измененение значение счёстчика
+    end;
   end;
-end;
-MultiplexMass:=arrC;
+  MultiplexMass:=arrC;//возвращение значению функции итогового массива
 end;
 
+{недоработанный метод сортировки
+Сортировка слиянием !!! изучть 
+
+function MergeSortImpl(arr,buffer:array of integer;l,r:integer):array of integer; 
+begin
+  if l < r then begin
+    var m:=(l+r) div 2;
+    MergeSortImpl(arr, buffer, l, m);
+    MergeSortImpl(arr, buffer, m + 1, r);
+
+    var k:= l;
+    var j:=m + 1;
+    var i:=0;
+    while (i <= m) or (j <= r) do begin   
+      if (j > r) or ((i <= m) and (arr[i] < arr[j])) then begin
+        buffer[k]:= arr[i];
+        i+=1;
+      end else begin
+        buffer[k]:= arr[j];
+        j+=1;
+      end;
+      k+=1;
+    end;
+    for var h:=l to r do begin
+      arr[h]:= buffer[h];
+    end;
+  end;
+MergeSortImpl:=arr;
+end;
+
+function MergeSortMass(arr:array of integer):array of integer;
+begin
+  var buffer:=arr;
+  MergeSortMass:=MergeSortImpl(arr, buffer, 0, arr.High);
+end;
+} 
+
+{ Фунция исключена в связи с наличием сисемного аналога (.Sum)
+
+function SumArr(arr:array of Integer):Integer;//функция суммирования всех элементов массива
+begin
+  for var i:=0 to arr.High do begin
+    SumArr+=arr[i];
+  end;
+end;}
 end.
 {@I_SMAF}
