@@ -1,4 +1,6 @@
-﻿function TryReadInteger(key:Boolean):Integer; //функция проверяющая исключения на ввод целочисленных переменных
+﻿program L2S2;
+
+function TryReadInteger(key:Boolean):Integer; //функция проверяющая исключения на ввод целочисленных переменных
 begin //для ввода целых положительных и целых любых чисел
   var a:=-MaxInt; //переменная для контроля изменения значения
   if key = True then begin //если ключ "истинный" на ввод будут восприниматься только целые положительные числа
@@ -16,7 +18,6 @@ begin //для ввода целых положительных и целых л
   end;
   TryReadInteger:=a; //возврат значение прошедшего проверку
 end;
-
 
 function InOut(arr:array of Integer; key:Boolean):array of Integer; //функция задачи массива и вывода массива
 begin //задать, перезадать, вывести можно любой массив
@@ -43,7 +44,6 @@ begin
   end;
   MassCount:=a;
 end;
-
 
 function MultiplexMass(arrA,arrB:array of integer):array of Integer;//слияние сортирующее отсортированные массивы,
 begin//знаю,звучит сложно, блок-схема прилагается
