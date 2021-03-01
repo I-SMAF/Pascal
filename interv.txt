@@ -1,7 +1,0 @@
-PascalABC.net
-Delphi
-Python(PyCharm)
-TCP/IP
-WierSharck
-Unity
-C#(Rider)
