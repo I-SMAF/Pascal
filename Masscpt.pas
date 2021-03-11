@@ -37,6 +37,13 @@ begin //задать, перезадать, вывести можно любой
   end;
 end;
 
+function SumArr(arr:array of Integer):Integer;//функция суммирования всех элементов массива
+begin
+  for var i:=0 to Length(arr)-1 do begin
+    SumArr+=arr[i];
+  end;
+end;
+
 function MassCount(arr:array of integer; a:integer):integer; //счётчик элементовмассива вне циклической зависимости
 begin
   if a < arr.High then begin

@@ -1,5 +1,4 @@
 ﻿program L2S2;
-
 function TryReadInteger(key:Boolean):Integer; //функция проверяющая исключения на ввод целочисленных переменных
 begin //для ввода целых положительных и целых любых чисел
   var a:=-MaxInt; //переменная для контроля изменения значения
@@ -85,10 +84,25 @@ begin//знаю,звучит сложно, блок-схема прилагае�
   MultiplexMass:=arrC;//возвращение значению функции итогового массива
 end;
 
+function SortMassAsc(arr:array of integer):array of integer; //сортировка массива
+begin
+ for var i:=0 to arr.High do begin //пузырик,ибо нефиг.
+   for var j:=0 to arr.High-1-i do begin
+     if arr[j+1] < arr[j] then begin
+       Swap(arr[j], arr[j+1]);
+     end;
+   end;
+ end;
+SortMassAsc:=arr;//возвращение значению функции итогового массива
+end;
+
 begin
   var a:array of integer;
-  var b:array of integer;
+  var b:array of integer
   a:=SortMass(inout(a,true),true);
   b:=SortMass(inout(b,true),true);
+  a:=SortMassAsc(inout(a,true));
+  b:=SortMassAsc(inout(b,true));
   inout(MultiplexMass(a,b),false);
 end.
+{@I_SMAF}

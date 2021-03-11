@@ -1,7 +1,4 @@
-﻿{
- первое пракическое занятие второй семестр МИИГАиК ИСиТ 1-2б-1 Карашов Иван
-  Обработка массива
-}
+﻿program L2S2;
 function TryReadInteger(key:Boolean):Integer; //функция проверяющая исключения на ввод челочисленных переменных
 begin //для ввода целых положительных и целых любых чисел
    var a:=-MaxInt; //переменная для контроля для контроля изменения значения
@@ -73,3 +70,4 @@ BEGIN
   Println(SumArr(MainArr));
   Println(if MaxNegEvenNum(MainArr)=0 then 'Null' else IntToStr(MaxNegEvenNum(MainArr)));//вывод наибольшиго четного отрицательного элемента из массива(если онного нет на выход "Null")
 end.
+{@I_SMAF}
