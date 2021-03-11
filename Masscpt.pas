@@ -91,8 +91,8 @@ end;
 
 function MultiplexMass(arrA,arrB:array of integer):array of Integer;//слияние сортирующее отсортированные массивы,
 begin//знаю,звучит сложно, блок-схема прилагается
-  var (m,n):=(0,0);//ндивидуальные счётчики для массивов 
-  var arrC:array of integer;//итоговы массив(его резерв тк запись напрямую в фунцию невозможна)
+  var (m,n):=(0,0);//индивидуальные счётчики для массивов 
+  var arrC:array of integer;//итоговый массив(его резерв тк запись напрямую в фунцию невозможна)
   SetLength(arrC,Length(arrA)+Length(arrB));
   arrC.Fill(MaxInt);//заполнение всех яйчеек массива максимальным элементом
   for var i:=0 to arrC.High do begin //слияние
