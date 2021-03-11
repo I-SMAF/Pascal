@@ -37,6 +37,28 @@ begin //задать, перезадать, вывести можно любой
   end;
 end;
 
+function SortMass(arr:array of integer;key:boolean):array of integer; //сортировка массива
+begin
+  if key = true then begin //если ключ "истинный" происходит сортировка по возростанию 
+    for var i:=0 to arr.High do begin //пузырик,ибо нефиг.
+      for var j:=0 to arr.High-1-i do begin
+        if arr[j+1] < arr[j] then begin
+          Swap(arr[j], arr[j+1]);
+          end;
+      end;
+      end;
+  end else begin//если ключ не "истинный" происходит сортировка по убыванию 
+    for var i:=0 to arr.High do begin //пузырик,ибо нефиг.Х2
+      for var j:=0 to arr.High-1-i do begin
+        if arr[j+1] > arr[j] then begin
+          Swap(arr[j], arr[j+1]);
+        end;
+      end;
+    end;
+  end;
+  SortMass:=arr;//возвращение значению функции итогового массива
+end;
+
 function MassCount(arr:array of integer; a:integer):integer; //счётчик элементовмассива вне циклической зависимости
 begin
   if a < arr.High then begin
@@ -66,7 +88,7 @@ end;
 begin
   var a:array of integer;
   var b:array of integer;
-  a:=inout(a,true);
-  b:=inout(b,true);
+  a:=SortMass(inout(a,true),true);
+  b:=SortMass(inout(b,true),true);
   inout(MultiplexMass(a,b),false);
 end.
